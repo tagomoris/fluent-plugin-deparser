@@ -1,29 +1,42 @@
-# Fluent::Plugin::Deparser
+# fluent-plugin-deparser
 
-TODO: Write a gem description
+## Component
 
-## Installation
+### DeparserOutput
 
-Add this line to your application's Gemfile:
+Generate string log value from log message, with specified format and fields, and re-emit.
 
-    gem 'fluent-plugin-deparser'
+## Configuration
 
-And then execute:
+### DeparserOutput
 
-    $ bundle
+To build CSV from field 'store','item','num', as field 'csv', without raw data:
 
-Or install it yourself as:
+    <match in.marketlog.**>
+      type deparser
+      remove_prefix in
+      format %s,%s,%s
+      format_key_names store,item,num
+      key_name csv
+    </match>
 
-    $ gem install fluent-plugin-deparser
+To build same CSV, as additional field 'csv', with reserved raw fields:
 
-## Usage
+    <match in.marketlog>
+      type deparser
+      tag marketlog
+      format %s,%s,%s
+      format_key_names store,item,num
+      key_name csv
+      reserve_data yes
+    </match>
 
-TODO: Write usage instructions here
+## TODO
 
-## Contributing
+* consider what to do next
+* patches welcome!
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+## Copyright
+
+Copyright:: Copyright (c) 2012- TAGOMORI Satoshi (tagomoris)
+License::   Apache License, Version 2.0
